@@ -1,0 +1,20 @@
+  
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudpostgres-service
+  labels:
+    app: {{ template "jira-iks-test.name" . }}
+    chart: {{ template "jira-iks-test.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "jira-iks-test.name" . }}
+    release: {{ .Release.Name }}
